@@ -4,9 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Phaser PWA</title>
-    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/game.css" />
   </head>
   <body>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", async () => {
+          const registration = await navigator.serviceWorker.register(
+            "/sw.js",
+            { scope: "/" }
+          );
+          console.log(
+            `ServiceWorker registration successful with scope: ${registration.scope}`
+          );
+        }, (err) => {
+          console.error(`Service Worker registration failed ${err}`);
+        });
+      }
+    </script>
     <script src="js/phaser.min.js"></script>
     <script src="js/scenes/play-scene.js"></script>
     <script src="js/scenes/boot-scene.js"></script>
