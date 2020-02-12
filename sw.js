@@ -19,7 +19,7 @@ self.addEventListener('install', (event) => {
     caches
       .open(cacheName)
       .then((cache) => cache.addAll(filesToCache))
-      .catch((err) => console.error(err))
+      .catch(err => console.error(err))
   );
 });
 
@@ -29,7 +29,26 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches
       .match(event.request)
-      .then((res) => res || fetch(event.request))
-      .catch((err) => console.error(err))
+      .then(res => res || fetch(event.request))
+      .catch(err => console.error(err))
+  );
+});
+
+self.addEventListener('activate', (event) => {
+  console.log('sw activate');
+  event.waitUntil(
+    caches
+      .keys()
+      .then(keylist => {
+        return Promise.all(
+          keylist.map(key => {
+            if (key !== cacheName) {
+              console.log('sw removing old cache', key);
+              return caches.delete(key);
+            }
+          })
+        );
+      })
+      .catch(err => console.error(err))
   );
 });
