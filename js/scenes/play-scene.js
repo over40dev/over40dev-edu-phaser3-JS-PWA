@@ -11,7 +11,7 @@ class PlayScene extends Phaser.Scene {
     console.log(w,h);
 
     this.logo = this.add.image(0, 0, 'logo');
-    this.logo.setScale(0.5);
+    this.logo.setScale(2);
 
     Phaser.Display.Align.In.Center(
       this.logo,

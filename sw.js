@@ -2,15 +2,16 @@ var cacheName = 'phaser-game-v01';
 var filesToCache = [
   '/',
   '/index.html',
+  '/index.js',
+  '/css/game.css',
   '/assets/logo.png',
   '/assets/icon-192.png',
   '/assets/icon-256.png',
   '/assets/icon-512.png',
+  '/js/phaser.min.js',
   '/js/scenes/boot-scene.js',
   '/js/scenes/play-scene.js',
   '/js/game.js',
-  '/css/game.css',
-  '/js/phaser.min.js',
 ];
 
 self.addEventListener('install', (event) => {
@@ -18,7 +19,7 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(cacheName)
-      .then((cache) => cache.addAll(filesToCache))
+      .then(cache => cache.addAll(filesToCache))
       .catch(err => console.error(err))
   );
 });

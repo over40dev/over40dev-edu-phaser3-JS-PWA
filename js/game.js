@@ -13,6 +13,6 @@ const config = {
   scene: [BootScene, PlayScene],
 };
 
-window.addEventListener('load', () => {
+window.addEventListener('load', function() {
   game = new Game(config);
 });
