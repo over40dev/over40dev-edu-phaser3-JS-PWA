@@ -2,7 +2,6 @@ var cacheName = 'phaser-game-v01';
 var filesToCache = [
   '/',
   '/index.html',
-  '/index.js',
   '/css/game.css',
   '/assets/logo.png',
   '/assets/icon-192.png',
@@ -40,9 +39,9 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then(keylist => {
+      .then(function (keylist) {
         return Promise.all(
-          keylist.map(key => {
+          keylist.map(function (key) {
             if (key !== cacheName) {
               console.log('sw removing old cache', key);
               return caches.delete(key);
@@ -50,6 +49,5 @@ self.addEventListener('activate', (event) => {
           })
         );
       })
-      .catch(err => console.error(err))
   );
 });

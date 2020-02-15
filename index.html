@@ -17,12 +17,50 @@
       <!-- Modal Content -->
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p>Add to Home Screen?</p>
+        <p class="close-text">Add to Home Screen?</p>
         <button onclick="offlinePrompt()">Install</button>
       </div>
     </div>
 
-    <script src="index.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function() {
+          navigator.serviceWorker.register("/sw.js", { scope: "/" }).then(
+            function(registration) {
+              console.log("ServiceWorker registration successful with scope: ", registration.scope);
+            },
+            function(err) {
+              console.log("ServiceWorker registration failed: ", err);
+            }
+          );
+        });
+      }
+      let deferredPrompt;
+      window.addEventListener("beforeinstallprompt", function(event) {
+        console.log("beforeinstallprompt triggered");
+        event.preventDefault();
+        deferredPrompt = event;
+        modal.style.display = "block";
+      });
+      // get Modal
+      var modal = document.getElementById("myModal");
+      // get <span> element that closes the modal
+      var span = document.getElementsByClassName('close')[0];
+      // when user clicks anywhere outside of modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+      // when the user clicks on the <span> (x), close the modal
+      span.onclick = function() {
+        modal.style.display = "none";
+      };
+
+      function offlinePrompt() {
+        deferredPrompt.prompt();
+      }
+    </script>
     <script src="js/phaser.min.js"></script>
     <script src="js/scenes/play-scene.js"></script>
     <script src="js/scenes/boot-scene.js"></script>
